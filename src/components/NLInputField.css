@@ -1,0 +1,15 @@
+.textfield-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  align-content: center;
+  grid-template-rows: 100px;
+  justify-items: center;
+  width: clamp(300px, 50%, 500px);
+}
+
+.textfield-container > button {
+  width: clamp(200px, 30%, 300px);
+}

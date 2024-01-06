@@ -1,8 +1,10 @@
-import React, { useState, useEffect, FC } from 'react';
-import TextInput from './components/NLInputField';
-import { firestore } from './firebase/firebaseConfig';
-import { collection, onSnapshot } from 'firebase/firestore';
-import { handleOnSend } from './backend/getFinanceInfo';
+import React, { useState, useEffect, FC } from "react";
+import TextInput from "./components/NLInputField";
+import { firestore } from "./firebase/firebaseConfig";
+import { collection, onSnapshot } from "firebase/firestore";
+import { handleOnSend } from "./backend/getFinanceInfo";
+import "./App.css";
+import { Card, CardContent } from "@mui/material";
 
 interface Finance {
   id: string;
@@ -22,14 +24,17 @@ const App: FC = () => {
         const financesCol = collection(firestore, `/users/${userId}/finances`);
 
         const unsubscribe = onSnapshot(financesCol, (snapshot) => {
-          const financeList: Finance[] = snapshot.docs.map(doc => ({ ...doc.data() as Finance, id: doc.id }));
+          const financeList: Finance[] = snapshot.docs.map((doc) => ({
+            ...(doc.data() as Finance),
+            id: doc.id,
+          }));
           setFinances(financeList);
         });
-    
+
         // Limpiar el listener al desmontar el componente
         return () => unsubscribe();
       } catch (error) {
-        console.error('Error al obtener los datos:', error);
+        console.error("Error al obtener los datos:", error);
       }
     };
 
@@ -37,11 +42,32 @@ const App: FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <h1>Finanzas Personales</h1>
+      <p>Mediante el uso de lenguaje natural escribe tus gastos o ingresos.
+        Deja que la IA se encargue de clasificarlos y organizarlos.
+      </p>
       <TextInput onSend={handleOnSend} />
       <h2>Finanzas</h2>
-      {finances.map(finance => (<p key={finance.id}>{finance.title}</p>))}
+      <div className="card-container">
+        {finances.map((finance) => {
+          const isIncome = finance.type === "INCOME";
+          return (
+            <Card key={finance.id} variant="outlined">
+              <CardContent>
+                <h3>{finance.title}</h3>
+                <p className="description">{finance.description}</p>
+                <section>
+                  <p className={isIncome ? 'income' : 'spent'}>{`${isIncome ? "+" : "-"} $${
+                    finance.quantity
+                  }`}</p>
+                  <p>{finance.category}</p>
+                </section>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
     </div>
   );
 };
