@@ -1,0 +1,16 @@
+//Get your own API keys from the respective websites and replace the values in the .env file with your own keys.
+
+//Firebase
+REACT_APP_FIREBASE_API_KEY
+REACT_APP_FIREBASE_AUTH_DOMAIN
+REACT_APP_FIREBASE_PROJECT_ID
+REACT_APP_FIREBASE_STORAGE_BUCKET
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID
+REACT_APP_FIREBASE_APP_ID
+REACT_APP_FIREBASE_MEASUREMENT_ID
+
+//Create a user from the Firebase console and replace the value in the .env file with the user ID.
+REACT_APP_USER_ID
+
+//OpenAI
+REACT_APP_OPENAI_API_KEY
