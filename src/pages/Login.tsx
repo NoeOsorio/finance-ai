@@ -13,6 +13,7 @@ import Alert from "@mui/material/Alert";
 import { assertIsError } from "../utils/AssertError";
 import { login } from "../backend/auth";
 import { useNavigate } from 'react-router-dom';
+import { Link } from "@mui/material";
 
 const Login: FC = () => {
   const [email, setEmail] = useState("");
@@ -74,6 +75,9 @@ const Login: FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <Link href="/register" variant="body2">
+            ¿No tienes una cuenta? Regístrate
+          </Link>
           <Button
             type="button"
             fullWidth

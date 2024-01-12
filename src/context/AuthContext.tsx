@@ -1,5 +1,3 @@
-// AuthContext.tsx
-
 import React, {
   createContext,
   useContext,
@@ -14,6 +12,7 @@ import { onAuthStateChanged, User } from "firebase/auth";
 interface AuthContextType {
   user: User | null;
   authenticated: boolean;
+  userId: string | null; 
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
@@ -26,13 +25,14 @@ export const useAuth = () => {
 interface AuthProviderProps {
   children: ReactNode;
 }
+
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
       setLoading(false);
     });
 
@@ -40,7 +40,14 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, authenticated: !!user, setUser }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        authenticated: !!user,
+        userId: user?.uid ?? null,
+        setUser,
+      }}
+    >
       {!loading && children}
     </AuthContext.Provider>
   );

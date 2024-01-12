@@ -13,18 +13,20 @@ import Alert from "@mui/material/Alert";
 import { assertIsError } from "../utils/AssertError";
 import { useNavigate } from "react-router-dom";
 import { register } from "../backend/auth";
+import { Link } from "@mui/material";
 
 const SignUp: FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSignUp = async () => {
     try {
-      await register(email, password);
+      await register({ email, password, firstName, lastName});
       navigate("/"); // Redirigir a la ruta raíz ('/')
-
     } catch (error) {
       assertIsError(error);
       setError(error.message);
@@ -46,7 +48,7 @@ const SignUp: FC = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign Up
+          Registro
         </Typography>
         <Box component="form" noValidate sx={{ mt: 1 }}>
           <TextField
@@ -54,8 +56,31 @@ const SignUp: FC = () => {
             margin="normal"
             required
             fullWidth
+            id="firstName"
+            label="Nombre(s)"
+            name="firstName"
+            autoFocus
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            id="lastName"
+            label="Apellido(s)"
+            name="lastName"
+            autoFocus
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
             id="email"
-            label="Email Address"
+            label="Correo electrónico"
             name="email"
             autoComplete="email"
             autoFocus
@@ -68,13 +93,16 @@ const SignUp: FC = () => {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="Contraseña"
             type="password"
             id="password"
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <Link href="/login" variant="body2">
+            ¿Ya tienes una cuenta? Inicia sesión
+          </Link>
           <Button
             type="button"
             fullWidth
@@ -83,7 +111,7 @@ const SignUp: FC = () => {
             sx={{ mt: 3, mb: 2 }}
             onClick={handleSignUp}
           >
-            Sign Up
+            Registrarme
           </Button>
           {error && <Alert severity="error">{error}</Alert>}
         </Box>

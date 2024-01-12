@@ -10,9 +10,12 @@ interface FinanceData {
   category: string;
 }
 
-const handleOnSend = async (userInput: string): Promise<void> => {
+const handleOnSend = async (
+  userId: string | null,
+  userInput: string
+): Promise<void> => {
   let financeData: FinanceData;
-
+  if(!userId) return;
   try {
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
@@ -49,7 +52,6 @@ const handleOnSend = async (userInput: string): Promise<void> => {
   }
 
   try {
-    const userId = process.env.REACT_APP_USER_ID;
     const financesCol = collection(firestore, `/users/${userId}/finances`);
     await addDoc(financesCol, financeData);
   } catch (error) {

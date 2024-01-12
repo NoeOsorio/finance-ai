@@ -6,6 +6,7 @@ import { handleOnSend } from "../backend/getFinanceInfo";
 import "./Home.css";
 import { Card, CardContent } from "@mui/material";
 import Navbar from "../components/Navbar";
+import { useAuth } from "../context/AuthContext";
 
 interface Finance {
   id: string;
@@ -17,11 +18,11 @@ interface Finance {
 }
 
 export function Home() {
+  const { userId } = useAuth();
   const [finances, setFinances] = useState<Finance[]>([]);
   useEffect(() => {
     const fetchFinances = async () => {
       try {
-        const userId = process.env.REACT_APP_USER_ID; // Asegúrate de obtener este valor correctamente
         const financesCol = collection(firestore, `/users/${userId}/finances`);
 
         const unsubscribe = onSnapshot(financesCol, (snapshot) => {
@@ -32,7 +33,6 @@ export function Home() {
           setFinances(financeList);
         });
 
-        // Limpiar el listener al desmontar el componente
         return () => unsubscribe();
       } catch (error) {
         console.error("Error al obtener los datos:", error);
@@ -40,8 +40,7 @@ export function Home() {
     };
 
     fetchFinances();
-  }, []);
-
+  }, [userId]);
   return (
     <>
     <Navbar />
@@ -51,7 +50,7 @@ export function Home() {
         Mediante el uso de lenguaje natural escribe tus gastos o ingresos. Deja
         que la IA se encargue de clasificarlos y organizarlos.
       </p>
-      <TextInput onSend={handleOnSend} />
+      <TextInput onSend={(input)=>handleOnSend(userId, input)} />
       <h2>Finanzas</h2>
       <div className="card-container">
         {finances.map((finance) => {
