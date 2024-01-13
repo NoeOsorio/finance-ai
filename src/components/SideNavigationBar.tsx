@@ -14,7 +14,6 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Logo from "../assets/images/logo.png";
-import { Image } from "@mui/icons-material";
 
 type NavigationItem = {
   text: string;

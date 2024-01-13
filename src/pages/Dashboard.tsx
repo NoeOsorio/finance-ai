@@ -1,6 +1,6 @@
-import { Container, useMediaQuery, useTheme } from "@mui/material";
+import { Container } from "@mui/material";
 import FinancialSummary from "../components/FinancialSummary";
-import { Transaction, collection, doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { firestore } from "../firebase/firebaseConfig";
