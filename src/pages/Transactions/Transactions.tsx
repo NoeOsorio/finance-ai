@@ -16,12 +16,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState, useEffect } from "react";
 import { Box } from "@mui/material";
-import TextInput from "../components/NLInputField/NLInputField";
-import { firestore } from "../firebase/firebaseConfig";
+import TextInput from "../../components/NLInputField/NLInputField";
+import { firestore } from "../../firebase/firebaseConfig";
 import { collection, onSnapshot } from "firebase/firestore";
-import { handleOnSend } from "../backend/getFinanceInfo";
+import { handleOnSend } from "../../backend/getFinanceInfo";
 import { Card, CardContent } from "@mui/material";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import './Transactions.css';
 
 interface Transaction {
@@ -42,7 +42,7 @@ const RecentTransactions: React.FC = () => {
   useEffect(() => {
     const fetchFinances = async () => {
       try {
-        const financesCol = collection(firestore, `/users/${userId}/finances`);
+        const financesCol = collection(firestore, `/users/${userId}/transactions`);
 
         const unsubscribe = onSnapshot(financesCol, (snapshot) => {
           const financeList: Transaction[] = snapshot.docs.map((doc) => ({

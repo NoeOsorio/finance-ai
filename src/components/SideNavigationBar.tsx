@@ -13,6 +13,8 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import SettingsIcon from "@mui/icons-material/Settings";
+import Logo from "../assets/images/logo.png";
+import { Image } from "@mui/icons-material";
 
 type NavigationItem = {
   text: string;
@@ -71,8 +73,8 @@ const SideNavigationBar: React.FC<SideNavigationBarProps> = ({
       onClose={handleDrawerToggle}
       sx={drawerStyle}
     >
-      <div style={{ padding: "10px", marginTop: isMobile ? "4em" : "1em" }}>
-        Logo {/* Coloca aquí tu logo */}
+      <div style={{ padding: "10px", marginTop: isMobile ? "4em" : "1em", height:"20%" }}>
+        <img src={Logo} alt="Logo" width="100%" height="100%" style={{objectFit:"cover"}} />
       </div>
       <List>
         {navigationItems.map((item) => {

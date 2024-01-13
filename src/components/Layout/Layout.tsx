@@ -14,9 +14,10 @@ import IconButton from "@mui/material/IconButton";
 
 type LayoutProps = {
   children: React.ReactNode;
+  title: string;
 };
 
-export function Layout({ children }: LayoutProps) {
+export function Layout({ children, title }: LayoutProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -52,7 +53,7 @@ export function Layout({ children }: LayoutProps) {
               </IconButton>
             )}
             <Typography variant="h6" noWrap component="div">
-              Dashboard Principal
+              {title}
             </Typography>
           </Toolbar>
         </AppBar>

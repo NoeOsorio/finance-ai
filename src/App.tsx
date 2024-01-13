@@ -3,10 +3,10 @@ import "./App.css";
 import { AuthProvider } from "./context/AuthContext";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import { Dashboard } from "./pages/Home";
+import { Dashboard } from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import RecentTransactions from "./pages/RecentTransactions";
+import RecentTransactions from "./pages/Transactions/Transactions";
 import { Layout } from "./components/Layout/Layout";
 
 const router = createBrowserRouter([
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <ProtectedRoute>
-        <Layout>
+        <Layout title="Dashboard">
         <Dashboard />
         </Layout>
       </ProtectedRoute>
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     path: "/transactions",
     element: (
       <ProtectedRoute>
-        <Layout>
+        <Layout title="Transacciones">
           <RecentTransactions />
         </Layout>
       </ProtectedRoute>

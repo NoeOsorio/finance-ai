@@ -1,5 +1,5 @@
 import { firestore } from "../firebase/firebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import axios from "axios";
 
 interface FinanceData {
@@ -8,6 +8,7 @@ interface FinanceData {
   description: string;
   title: string;
   category: string;
+  date: Date;
 }
 
 const handleOnSend = async (
@@ -15,7 +16,7 @@ const handleOnSend = async (
   userInput: string
 ): Promise<void> => {
   let financeData: FinanceData;
-  if(!userId) return;
+  if (!userId) return;
   try {
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
@@ -45,6 +46,7 @@ const handleOnSend = async (
       description: responseJson.description,
       title: responseJson.title,
       category: responseJson.category,
+      date: new Date(),
     };
   } catch (error) {
     console.error("Error al obtener la respuesta de OpenAI: ", error);
@@ -52,8 +54,33 @@ const handleOnSend = async (
   }
 
   try {
-    const financesCol = collection(firestore, `/users/${userId}/finances`);
+    const financesCol = collection(firestore, `/users/${userId}/transactions`);
     await addDoc(financesCol, financeData);
+
+    // Actualizar el estado financiero del usuario
+    const userDocRef = doc(firestore, `/users/${userId}`);
+    const userDoc = await getDoc(userDocRef);
+
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      let { balance = 0, income = 0, expenses = 0, transactionCount = 0 } = userData;
+      console.log("userData: ", userData);
+      if (financeData.type === "INCOME") {
+        balance += financeData.amount;
+        income += financeData.amount;
+      } else if (financeData.type === "SPENT") {
+        balance -= financeData.amount;
+        expenses += financeData.amount;
+      }
+
+      await updateDoc(userDocRef, {
+        balance,
+        income,
+        expenses,
+        transactionCount: transactionCount + 1,
+        lastTransactionDate: new Date(),
+      });
+    }
   } catch (error) {
     console.error("Error al guardar en Firestore: ", error);
   }
