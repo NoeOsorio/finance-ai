@@ -32,7 +32,7 @@ const TextInput: FC<TextInputProps> = ({ onSend }) => {
         fullWidth
         placeholder="Me compre un cafe por $50 pesos..."
       />
-      <Button variant="contained" onClick={handleOnSend}>Enviar</Button>
+      <Button variant="contained" onClick={handleOnSend}>Guardar</Button>
     </div>
   );
 };

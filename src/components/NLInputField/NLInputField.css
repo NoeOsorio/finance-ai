@@ -8,6 +8,7 @@
   grid-template-rows: 100px;
   justify-items: center;
   width: clamp(300px, 50%, 500px);
+  width: 80%;
 }
 
 .textfield-container > button {

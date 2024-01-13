@@ -4,7 +4,7 @@ import axios from "axios";
 
 interface FinanceData {
   type: string;
-  quantity: number;
+  amount: number;
   description: string;
   title: string;
   category: string;
@@ -24,7 +24,7 @@ const handleOnSend = async (
         messages: [
           {
             role: "system",
-            content: `Analiza el siguiente texto y categoriza si es un gasto o ingreso. Luego, extrae y devuelve los detalles relevantes en un formato JSON. El texto es: '${userInput}'. El JSON debe contener los campos: 'type' (que debe ser 'SPENT' para un gasto o 'INCOME' para un ingreso), 'quantity' (monto del gasto o ingreso), 'description' (una breve descripción), 'title' (un título resumido), y 'category' (la categoría del gasto o ingreso, basada en el contexto del texto).`,
+            content: `Analiza el siguiente texto y categoriza si es un gasto o ingreso. Luego, extrae y devuelve los detalles relevantes en un formato JSON. El texto es: '${userInput}'. El JSON debe contener los campos: 'type' (que debe ser 'SPENT' para un gasto o 'INCOME' para un ingreso), 'amount' (monto del gasto o ingreso), 'description' (una breve descripción), 'title' (un título resumido), y 'category' (la categoría del gasto o ingreso, basada en el contexto del texto).`,
           },
         ],
         model: "gpt-3.5-turbo",
@@ -41,7 +41,7 @@ const handleOnSend = async (
 
     financeData = {
       type: responseJson.type,
-      quantity: responseJson.quantity,
+      amount: responseJson.amount,
       description: responseJson.description,
       title: responseJson.title,
       category: responseJson.category,

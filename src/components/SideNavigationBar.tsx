@@ -8,7 +8,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import BarChartIcon from "@mui/icons-material/BarChart";
@@ -18,6 +18,7 @@ type NavigationItem = {
   text: string;
   icon: JSX.Element;
   link: string;
+  disabled?: boolean;
 };
 
 type SideNavigationBarProps = {
@@ -32,8 +33,18 @@ const navigationItems: NavigationItem[] = [
     icon: <AccountBalanceWalletIcon />,
     link: "/transactions",
   },
-  { text: "Reportes", icon: <BarChartIcon />, link: "/reports" },
-  { text: "Ajustes", icon: <SettingsIcon />, link: "/settings" },
+  {
+    text: "Reportes",
+    icon: <BarChartIcon />,
+    link: "/reports",
+    disabled: true,
+  },
+  {
+    text: "Ajustes",
+    icon: <SettingsIcon />,
+    link: "/settings",
+    disabled: true,
+  },
 ];
 const SideNavigationBar: React.FC<SideNavigationBarProps> = ({
   handleDrawerToggle,
@@ -64,21 +75,37 @@ const SideNavigationBar: React.FC<SideNavigationBarProps> = ({
         Logo {/* Coloca aquí tu logo */}
       </div>
       <List>
-        {navigationItems.map((item) => (
-          <RouterLink
-            to={item.link}
-            key={item.text}
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <ListItemButton
+        {navigationItems.map((item) => {
+          if (item.disabled) {
+            return (
+              <ListItemButton
+                disabled={item.disabled}
+                key={item.text}
+                onClick={isMobile ? handleDrawerToggle : undefined}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            );
+          }
+
+          return (
+            <RouterLink
+              to={item.link}
               key={item.text}
-              onClick={isMobile ? handleDrawerToggle : undefined}
+              style={{ textDecoration: "none", color: "inherit" }}
             >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </RouterLink>
-        ))}
+              <ListItemButton
+                disabled={item.disabled}
+                key={item.text}
+                onClick={isMobile ? handleDrawerToggle : undefined}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            </RouterLink>
+          );
+        })}
       </List>
     </Drawer>
   );
