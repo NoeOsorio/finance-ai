@@ -25,7 +25,8 @@ const handleOnSend = async (
         messages: [
           {
             role: "system",
-            content: `Analiza el siguiente texto y categoriza si es un gasto o ingreso. Luego, extrae y devuelve los detalles relevantes en un formato JSON. El texto es: '${userInput}'. El JSON debe contener los campos: 'type' (que debe ser 'SPENT' para un gasto o 'INCOME' para un ingreso), 'amount' (monto del gasto o ingreso), 'description' (una breve descripción), 'title' (un título resumido), y 'category' (la categoría del gasto o ingreso, basada en el contexto del texto).`,
+            content: `Analiza el siguiente texto y categoriza si es un gasto o ingreso. Luego, extrae y devuelve los detalles relevantes en un formato JSON. 
+            El texto es: '${userInput}'. El JSON debe contener los campos: 'type' (que debe ser 'SPENT' para un gasto o 'INCOME' para un ingreso), 'amount' (monto del gasto o ingreso, siempre debe ser de tipo number, en caso de que el usuario no indique el monto, trata de calcularlo), 'description' (una breve descripción, explica el contexto de la transaccion), 'title' (un título resumido, que tenga coherencia con lo que ingreso el usuario), y 'category' (la categoría del gasto o ingreso, basada en el contexto del texto: Entretenimiento, Alimentos, Educacion, Salarios, Regalos, Viaje, etc).`,
           },
         ],
         model: "gpt-3.5-turbo",
