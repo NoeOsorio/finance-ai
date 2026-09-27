@@ -132,7 +132,7 @@ const RecentTransactions: React.FC = () => {
                       <IconButton aria-label="edit" size="large">
                         <EditIcon fontSize="inherit" />
                       </IconButton>
-                      <IconButton aria-label="delete" size="large">
+                      <IconButton color={"error"} aria-label="delete" size="large">
                         <DeleteIcon fontSize="inherit" />
                       </IconButton>
                     </TableCell>

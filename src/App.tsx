@@ -8,6 +8,12 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import RecentTransactions from "./pages/Transactions/Transactions";
 import { Layout } from "./components/Layout/Layout";
+import TrendCharts from "./pages/TrendCharts";
+
+const incomeData = [{ name: 'Ene', value: 4000 }, /* ... */];
+const expenseData = [{ name: 'Ene', value: 3000 }, /* ... */];
+const categoryData = [{ name: 'Comida', value: 1500 }, /* ... */];
+
 
 const router = createBrowserRouter([
   {
@@ -26,6 +32,16 @@ const router = createBrowserRouter([
       <ProtectedRoute>
         <Layout title="Transacciones">
           <RecentTransactions />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/reports",
+    element: (
+      <ProtectedRoute>
+        <Layout title="Reports">
+        <TrendCharts incomeData={incomeData} expenseData={expenseData} categoryData={categoryData} />
         </Layout>
       </ProtectedRoute>
     ),
